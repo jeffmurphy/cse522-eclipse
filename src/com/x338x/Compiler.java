@@ -2,6 +2,7 @@ package com.x338x;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,7 +28,7 @@ public class Compiler {
                 parseLine(line);
             }
 
-            Iterator it = pendingLabelMap.entrySet().iterator();
+            Iterator<Entry<String, LabelNode>> it = pendingLabelMap.entrySet().iterator();
             while (it.hasNext()) {
                 Map.Entry pair = (Map.Entry)it.next();
                 LabelNode ln = pendingLabelMap.get(pair.getKey());

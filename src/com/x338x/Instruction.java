@@ -21,6 +21,8 @@ public class Instruction {
             "^(BNZ)\\s([AB])\\s*,\\s*(\\S+)$",
             "^(HALT)$"
     };
+    
+    private int value;
 
     /*
      bytecode is 16 bits:
@@ -52,8 +54,8 @@ public class Instruction {
 
     
 
-    public Instruction()  {
-        
+    public Instruction(int c)  {
+        this.setValue(c);
     }
 
     
@@ -129,5 +131,15 @@ public class Instruction {
                 throw new Exception("Invalid register: " + reg);
         }
     }
+
+
+	public int getValue() {
+		return value;
+	}
+
+
+	public void setValue(int value) {
+		this.value = value;
+	}
 
 }

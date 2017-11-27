@@ -5,18 +5,18 @@ import java.util.List;
 
 public class ByteCodes {
 	
-    private List<Integer> codes;
+    private List<Instruction> codes;
     
     public ByteCodes()
     {
     	setCodes(new ArrayList<>());
     }
 
-	public List<Integer> getCodes() {
+	public List<Instruction> getCodes() {
 		return codes;
 	}
 
-	public void setCodes(List<Integer> codes) {
+	public void setCodes(List<Instruction> codes) {
 		this.codes = codes;
 	}
 

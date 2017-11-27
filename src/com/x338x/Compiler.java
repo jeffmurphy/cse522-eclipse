@@ -133,13 +133,13 @@ public class Compiler {
 
         if (op.getPending()) {
             pendingLabelMap.put(op.getPendingLabel(), new Statement(iNum, instruction));
-            byteCodes.getCodes().add(0); // placeholder
+            byteCodes.getCodes().add(new Instruction(0)); // placeholder
         }
         else {
             if (byteCodes.getCodes().size() == iNum)
-                byteCodes.getCodes().add(op.getByteCode());
+                byteCodes.getCodes().add(new Instruction(op.getByteCode()));
             else
-                byteCodes.getCodes().set(iNum, op.getByteCode());
+                byteCodes.getCodes().set(iNum,new Instruction(op.getByteCode()));
         }
 
         iNum += 1;

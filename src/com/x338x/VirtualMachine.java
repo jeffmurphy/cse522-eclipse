@@ -72,7 +72,7 @@ public class VirtualMachine {
                 if (iNum > byteCodes.getCodes().size())
                     registers.setST(registers.getST() | Registers.BUSERROR | Registers.HALT);
                 else
-                    Instruction.execute(registers, memory, byteCodes.getCodes().get(iNum));
+                    Instruction.execute(registers, memory, byteCodes.getCodes().get(iNum).getValue());
 
                // visualizeRegisters();
                // mtm.fireTableDataChanged();
@@ -99,7 +99,7 @@ public class VirtualMachine {
                 if (iNum > byteCodes.getCodes().size())
                     registers.setST(registers.getST() | Registers.BUSERROR | Registers.HALT);
                 else
-                    Instruction.execute(registers, memory, byteCodes.getCodes().get(iNum));
+                    Instruction.execute(registers, memory, byteCodes.getCodes().get(iNum).getValue());
 
                 visualizeRegisters();
                 mtm.fireTableDataChanged();

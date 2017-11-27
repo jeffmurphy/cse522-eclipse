@@ -43,8 +43,8 @@ public class ByteCodeTableModel extends DefaultTableModel {
 
     public Object getValueAt(int row, int col) {
         if (col == 0) return row;
-        if (col == 2) return itob((int)byteCodes.getCodes().get(row)); //Integer.toHexString((int)byteCodes.get(row));
-        return (int) byteCodes.getCodes().get(row);
+        if (col == 2) return itob((int)byteCodes.getCodes().get(row).getValue()); //Integer.toHexString((int)byteCodes.get(row));
+        return (int) byteCodes.getCodes().get(row).getValue();
     }
 
     public boolean isCellEditable(int row, int col) {
@@ -52,7 +52,7 @@ public class ByteCodeTableModel extends DefaultTableModel {
     }
 
     public void setValueAt(Object value, int row, int col) {
-        byteCodes.getCodes().set(row, (int)value);
+        byteCodes.getCodes().set(row, new Instruction((int)value));
         fireTableCellUpdated(row, col);
     }
 }

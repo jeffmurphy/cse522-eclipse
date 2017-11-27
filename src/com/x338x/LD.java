@@ -1,6 +1,6 @@
 package com.x338x;
 
-public class LD extends Instruction {
+public class LD extends Operations {
 
     /*
      bytecode is 16 bits:
@@ -23,22 +23,22 @@ public class LD extends Instruction {
      */
 
     public static int convert(String arg1, String arg2, Boolean address) {
-        int bc = Instruction.II_LD;
+        int bc = Opcodes.II_LD;
 
         if (arg1.equals("A"))
-            bc |= Instruction.REGA << Instruction.R1_SHIFT;
+            bc |= Opcodes.REGA << Opcodes.R1_SHIFT;
         else if (arg1.equals("B"))
-            bc |= Instruction.REGB << Instruction.R1_SHIFT;
+            bc |= Opcodes.REGB << Opcodes.R1_SHIFT;
 
         // R2 indicates of the operand is a memory address or literal
 
         if (address)
-            bc |= Instruction.ADDRESS << Instruction.R2_SHIFT;
+            bc |= Opcodes.ADDRESS << Opcodes.R2_SHIFT;
         else
-            bc |= Instruction.LITERAL << Instruction.R2_SHIFT;
+            bc |= Opcodes.LITERAL << Opcodes.R2_SHIFT;
 
         int memloc = Integer.parseInt(arg2);
-        bc |= (Instruction.OPERAND_MASK & memloc);
+        bc |= (Opcodes.OPERAND_MASK & memloc);
 
         return bc;
     }
@@ -46,7 +46,7 @@ public class LD extends Instruction {
     public static void execute(Registers r, int [] memory, int reg, int reg2, int operand) throws Exception {
         int val = operand;
 
-        if (reg2 == Instruction.ADDRESS) {
+        if (reg2 == Opcodes.ADDRESS) {
             if (operand >= memory.length) {
                 r.setST(r.getST() | Registers.BUSERROR | Registers.HALT);
                 return;
@@ -55,10 +55,10 @@ public class LD extends Instruction {
         }
 
         switch (reg) {
-            case Instruction.REGA:
+            case Opcodes.REGA:
                 r.setA(val);
                 break;
-            case Instruction.REGB:
+            case Opcodes.REGB:
                 r.setB(val);
                 break;
             default:

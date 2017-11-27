@@ -5,7 +5,7 @@ import java.util.List;
 
 public class VirtualMachine {
     private int[] memory;
-    private List<Integer> byteCodes;
+    private ByteCodes byteCodes;
 
     Registers registers;
     MemoryTableModel mtm;
@@ -45,11 +45,11 @@ public class VirtualMachine {
         bregLabel.setText(" B: " + registers.getB());
     }
 
-    public List<Integer> getByteCodes() {
+    public ByteCodes getByteCodes() {
         return byteCodes;
     }
 
-    public void setByteCodes(List<Integer> byteCodes) {
+    public void setByteCodes(ByteCodes byteCodes) {
         this.byteCodes = byteCodes;
     }
 
@@ -61,7 +61,7 @@ public class VirtualMachine {
     }
 
     public void step() throws Exception {
-        if (byteCodes != null && byteCodes.size() > 0) {
+        if (byteCodes != null && byteCodes.getCodes().size() > 0) {
             System.out.printf("stepping over instruction %d%n", registers.getPC());
 
             if ((registers.getST() & Registers.HALT) != Registers.HALT) {
@@ -69,10 +69,10 @@ public class VirtualMachine {
                 registers.setST(0);
                // bct.setRowSelectionInterval(iNum, iNum);
 
-                if (iNum > byteCodes.size())
+                if (iNum > byteCodes.getCodes().size())
                     registers.setST(registers.getST() | Registers.BUSERROR | Registers.HALT);
                 else
-                    Instruction.execute(registers, memory, byteCodes.get(iNum));
+                    Instruction.execute(registers, memory, byteCodes.getCodes().get(iNum));
 
                // visualizeRegisters();
                // mtm.fireTableDataChanged();
@@ -87,19 +87,19 @@ public class VirtualMachine {
     }
 
     public void run() throws Exception {
-        if (byteCodes != null && byteCodes.size() > 0) {
+        if (byteCodes != null && byteCodes.getCodes().size() > 0) {
             reset();
-            System.out.println("running " + byteCodes.size() + " instructions.");
+            System.out.println("running " + byteCodes.getCodes().size() + " instructions.");
 
             while ((registers.getST() & Registers.HALT) != Registers.HALT) {
                 int iNum = registers.getPC();
                 registers.setST(0);
                 bct.setRowSelectionInterval(iNum, iNum);
 
-                if (iNum > byteCodes.size())
+                if (iNum > byteCodes.getCodes().size())
                     registers.setST(registers.getST() | Registers.BUSERROR | Registers.HALT);
                 else
-                    Instruction.execute(registers, memory, byteCodes.get(iNum));
+                    Instruction.execute(registers, memory, byteCodes.getCodes().get(iNum));
 
                 visualizeRegisters();
                 mtm.fireTableDataChanged();

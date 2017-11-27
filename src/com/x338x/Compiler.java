@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 public class Compiler {
     private int iNum = 0;
-    List<Integer> byteCodes = new ArrayList<>();
+    ByteCodes byteCodes = new ByteCodes();
 
     /* map 'label' to instruction number / instruction */
     private Map<String, Statement> labelMap = new HashMap<String, Statement>();
@@ -22,7 +22,7 @@ public class Compiler {
             labelMap.clear();
             pendingLabelMap.clear();
             iNum = 0;
-            byteCodes.clear();
+            byteCodes.getCodes().clear();
 
             for (String line : program.split("\n")) {
                 checkSyntax(line);
@@ -30,7 +30,7 @@ public class Compiler {
             labelMap.clear();
             pendingLabelMap.clear();
             iNum = 0;
-            byteCodes.clear();
+            byteCodes.getCodes().clear();
             
             convertToByteCode(program);
 
@@ -129,17 +129,17 @@ public class Compiler {
         }
 
         System.out.println(iNum + ") lab: " + label + " ins: " + instruction);
-        Instruction ins = new Instruction(instruction, labelMap);
+        Operations op = new Operations(instruction, labelMap);
 
-        if (ins.getPending()) {
-            pendingLabelMap.put(ins.getPendingLabel(), new Statement(iNum, instruction));
-            byteCodes.add(0); // placeholder
+        if (op.getPending()) {
+            pendingLabelMap.put(op.getPendingLabel(), new Statement(iNum, instruction));
+            byteCodes.getCodes().add(0); // placeholder
         }
         else {
-            if (byteCodes.size() == iNum)
-                byteCodes.add(ins.getByteCode());
+            if (byteCodes.getCodes().size() == iNum)
+                byteCodes.getCodes().add(op.getByteCode());
             else
-                byteCodes.set(iNum, ins.getByteCode());
+                byteCodes.getCodes().set(iNum, op.getByteCode());
         }
 
         iNum += 1;

@@ -1,6 +1,6 @@
 package com.x338x;
 
-public class HALT extends Instruction {
+public class HALT extends Operations {
 
     /*
      bytecode is 16 bits:
@@ -20,7 +20,7 @@ public class HALT extends Instruction {
      */
 
     public static int convert() {
-        int bc = Instruction.II_HALT;
+        int bc = Opcodes.II_HALT;
         return bc;
     }
 

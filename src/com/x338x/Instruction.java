@@ -88,7 +88,7 @@ public class Instruction {
     private String pendingLabel;
 
     private String i;
-    private Map<String, LabelNode> labelMap;
+    private Map<String, Statement> labelMap;
 
     private int labelNum = -1;
     private String instruction = "";
@@ -102,7 +102,7 @@ public class Instruction {
 
     }
 
-    public Instruction(String i, Map<String, LabelNode> labelMap) throws Exception {
+    public Instruction(String i, Map<String, Statement> labelMap) throws Exception {
         this.i = i.trim().replaceAll(" +", " ");
         this.labelMap = labelMap;
         parse();
@@ -123,7 +123,7 @@ public class Instruction {
                 // if it's an instruction that uses a label, try to resolve the label
 
                 if (instruction.equals("BEQ") || instruction.equals("BGT") || instruction.equals("BLT")) {
-                    LabelNode ln = labelMap.get(m.group(4));
+                    Statement ln = labelMap.get(m.group(4));
                     arg1 = m.group(2);
                     arg2 = m.group(3);
                     if (ln == null) {
@@ -138,7 +138,7 @@ public class Instruction {
 
                 else if (instruction.equals("BNZ")) {
                     arg1 = m.group(2);
-                    LabelNode ln = labelMap.get(m.group(3));
+                    Statement ln = labelMap.get(m.group(3));
                     if (ln == null) {
                         pending = true;
                         pendingLabel = m.group(3);

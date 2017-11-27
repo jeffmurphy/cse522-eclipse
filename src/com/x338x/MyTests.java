@@ -13,7 +13,7 @@ public class MyTests {
 	
 	@Test
 	public void test_compile_ADD_A_B() {
-	    Map<String, LabelNode> labelMap = new HashMap<String, LabelNode>();
+	    Map<String, Statement> labelMap = new HashMap<String, Statement>();
 	    try {
 	    	Instruction ins = new Instruction("ADD A, B", labelMap);
 	    	assert(ins.getByteCode() == 0b0100000100000000);
@@ -27,7 +27,7 @@ public class MyTests {
 	
 	@Test
 	public void test_compile_ADD_A_Z() {
-	    Map<String, LabelNode> labelMap = new HashMap<String, LabelNode>();
+	    Map<String, Statement> labelMap = new HashMap<String, Statement>();
 	    try {
 	    	@SuppressWarnings("unused")
 			Instruction ins = new Instruction("ADD A, Z", labelMap);

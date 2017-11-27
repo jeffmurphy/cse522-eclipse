@@ -1,9 +1,9 @@
 package com.x338x;
 
-public class LabelNode {
-    int iNum;
+public class Statement {
+	int iNum;
     String instruction;
-    LabelNode(int n, String i) {
+    Statement(int n, String i) {
         iNum = n;
         instruction = i;
     }

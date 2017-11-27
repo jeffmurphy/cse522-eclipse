@@ -40,7 +40,7 @@ public class mainform {
         VirtualMachine vm = new VirtualMachine(mtm, bytecodeTable, pcLabel, stLabel, aregLabel, bregLabel);
 
         Compiler compiler = new Compiler();
-        
+
         compileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -100,14 +100,12 @@ public class mainform {
 
     public static void main(String[] args) {
         mainform mf = new mainform();
-        
-        
 
-       /* JFrame mainpanel = new JFrame("Compiler");
+        JFrame mainpanel = new JFrame("Compiler");
         mainpanel.setContentPane(mf.mainpanel);
         mainpanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainpanel.pack();
-        mainpanel.setVisible(true);*/
+        mainpanel.setVisible(true);
     }
 
     {

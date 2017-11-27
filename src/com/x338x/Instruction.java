@@ -46,51 +46,50 @@ public class Instruction {
     }
 
     
-    public static void execute(Registers registers, int[] memory, int instruction) throws Exception {
+    public static int execute(Registers registers, Memory memory, int instruction) throws Exception {
         int nextIns = -1;
 
         switch (instruction & Opcodes.INS_MASK) {
             case Opcodes.II_LD:
-                nextIns= Operations.execute("LD",registers, memory, instruction);
+                nextIns= Operations.execute("LD",registers, memory.getBlocks(), instruction);
                 break;
             case Opcodes.II_ST:
-                nextIns= Operations.execute("ST",registers, memory, instruction);
+                nextIns= Operations.execute("ST",registers, memory.getBlocks(), instruction);
                 break;
             case Opcodes.II_ADD:
-                nextIns= Operations.execute("ADD",registers, memory, instruction);
+                nextIns= Operations.execute("ADD",registers, memory.getBlocks(), instruction);
                 break;
             case Opcodes.II_SUB:
-                nextIns= Operations.execute("SUB",registers, memory, instruction);
+                nextIns= Operations.execute("SUB",registers, memory.getBlocks(), instruction);
                 break;
             case Opcodes.II_MUL:
-                nextIns= Operations.execute("MUL",registers, memory, instruction);
+                nextIns= Operations.execute("MUL",registers, memory.getBlocks(), instruction);
                 break;
             case Opcodes.II_DIV:
-                nextIns= Operations.execute("DIV",registers, memory, instruction);
+                nextIns= Operations.execute("DIV",registers, memory.getBlocks(), instruction);
                 break;
             case Opcodes.II_BEQ:
-                nextIns= Operations.execute("BEQ",registers, memory, instruction);
+                nextIns= Operations.execute("BEQ",registers, memory.getBlocks(), instruction);
                 break;
             case Opcodes.II_BGT:
-                nextIns= Operations.execute("BGT",registers, memory, instruction);
+                nextIns= Operations.execute("BGT",registers, memory.getBlocks(), instruction);
                 break;
             case Opcodes.II_BLT:
-                nextIns= Operations.execute("BLT",registers, memory, instruction);
+                nextIns= Operations.execute("BLT",registers, memory.getBlocks(), instruction);
                 break;
             case Opcodes.II_BNZ:
-                nextIns= Operations.execute("BNZ",registers, memory, instruction);
+                nextIns= Operations.execute("BNZ",registers, memory.getBlocks(), instruction);
                 break;
             case Opcodes.II_HALT:
-                nextIns= Operations.execute("HALT",registers, memory, instruction);
+                nextIns= Operations.execute("HALT",registers, memory.getBlocks(), instruction);
                 break;
             default:
                 throw new Exception("Unknown instruction in CC|II fields: " + (instruction & Opcodes.INS_MASK));
         }
+        
+        return nextIns;
 
-        if (nextIns == -1)
-            registers.setPC(registers.getPC() + 1);
-        else
-            registers.setPC(nextIns);
+        
     }
 
     

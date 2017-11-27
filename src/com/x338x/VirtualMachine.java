@@ -32,11 +32,6 @@ public class VirtualMachine {
 
         visualizeRegisters();
     }
-    
-    public VirtualMachine(){
-    	memory= new int[10];
-    	registers=new Registers();
-    }
 
     private void visualizeRegisters() {
         pcLabel.setText("PC: " + registers.getPC());
@@ -67,15 +62,15 @@ public class VirtualMachine {
             if ((registers.getST() & Registers.HALT) != Registers.HALT) {
                 int iNum = registers.getPC();
                 registers.setST(0);
-               // bct.setRowSelectionInterval(iNum, iNum);
+                bct.setRowSelectionInterval(iNum, iNum);
 
                 if (iNum > byteCodes.size())
                     registers.setST(registers.getST() | Registers.BUSERROR | Registers.HALT);
                 else
                     Instruction.execute(registers, memory, byteCodes.get(iNum));
 
-               // visualizeRegisters();
-               // mtm.fireTableDataChanged();
+                visualizeRegisters();
+                mtm.fireTableDataChanged();
             } else
                 throw new Exception("Execution finished.");
 

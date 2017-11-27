@@ -27,11 +27,7 @@ public class Compiler {
             for (String line : program.split("\n")) {
                 checkSyntax(line);
             }
-            labelMap.clear();
-            pendingLabelMap.clear();
-            iNum = 0;
-            byteCodes.clear();
-            
+
             convertToByteCode(program);
 
         } catch(Exception e) {
@@ -48,9 +44,8 @@ public class Compiler {
     		for (String line : program.split("\n")) {
                 parseLine(line);
             }
-    	
-    		Iterator<Entry<String, Statement>> it = pendingLabelMap.entrySet().iterator();
-    		while (it.hasNext()) {
+    	Iterator<Entry<String, Statement>> it = pendingLabelMap.entrySet().iterator();
+        while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
             Statement ln = pendingLabelMap.get(pair.getKey());
 

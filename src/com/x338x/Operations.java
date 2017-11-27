@@ -160,6 +160,53 @@ public class Operations {
 	        else if (i.equals("HALT"))
 	            byteCode = HALT.convert();
 	    }
+	    
+	    public static int execute(String type,Registers registers, int[] memory, int instruction) throws Exception {
+	    	int next =-1;
+	    	switch(type){
+	    	 case "LD":
+	                LD.execute(registers, memory, (instruction & Opcodes.R1_MASK) >> Opcodes.R1_SHIFT, (instruction & Opcodes.R2_MASK) >> Opcodes.R2_SHIFT, instruction & Opcodes.OPERAND_MASK);
+	                break;
+	            case "ST":
+	                ST.execute(registers, memory, (instruction & Opcodes.R1_MASK) >> Opcodes.R1_SHIFT, instruction & Opcodes.OPERAND_MASK);
+	                break;
+	            case "ADD":
+	                ADD.execute(registers, (instruction & Opcodes.R1_MASK) >> Opcodes.R1_SHIFT, (instruction & Opcodes.R2_MASK) >> Opcodes.R2_SHIFT);
+	                break;
+	            case "SUB":
+	                SUB.execute(registers, (instruction & Opcodes.R1_MASK) >> Opcodes.R1_SHIFT, (instruction & Opcodes.R2_MASK) >> Opcodes.R2_SHIFT);
+	                break;
+	            case "MUL":
+	                MUL.execute(registers, (instruction & Opcodes.R1_MASK) >> Opcodes.R1_SHIFT, (instruction & Opcodes.R2_MASK) >> Opcodes.R2_SHIFT);
+	                break;
+	            case "DIV":
+	                DIV.execute(registers, (instruction & Opcodes.R1_MASK) >> Opcodes.R1_SHIFT, (instruction & Opcodes.R2_MASK) >> Opcodes.R2_SHIFT);
+	                break;
+	            case "BEQ":
+	                next = BEQ.execute(registers, (instruction & Opcodes.R1_MASK) >> Opcodes.R1_SHIFT, (instruction & Opcodes.R2_MASK) >> Opcodes.R2_SHIFT, instruction & Opcodes.OPERAND_MASK);
+	                break;
+	            case "BGT":
+	                next = BGT.execute(registers, (instruction & Opcodes.R1_MASK) >> Opcodes.R1_SHIFT, (instruction & Opcodes.R2_MASK) >> Opcodes.R2_SHIFT, instruction & Opcodes.OPERAND_MASK);
+	                break;
+	            case "BLT":
+	                next = BLT.execute(registers, (instruction & Opcodes.R1_MASK) >> Opcodes.R1_SHIFT, (instruction & Opcodes.R2_MASK) >> Opcodes.R2_SHIFT, instruction & Opcodes.OPERAND_MASK);
+	                break;
+	            case "BNZ":
+	                next = BNZ.execute(registers, (instruction & Opcodes.R1_MASK) >> Opcodes.R1_SHIFT, instruction & Opcodes.OPERAND_MASK);
+	                break;
+	            case "HALT":
+	                HALT.execute(registers);
+	                break;
+	            default:
+	                throw new Exception("Unknown instruction in CC|II fields: " + (instruction & Opcodes.INS_MASK));
+
+	    	}
+	    		return next;
+	    	}
+	    
+	    
+	    
+	    
 	    public Boolean getPending() {
 	        return pending;
 	    }

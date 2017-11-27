@@ -8,19 +8,6 @@ public class Instruction {
 
     // could do a CMP REG, [REG | LIT] ..
 
-    private String[] iPats = {
-            "^(LD)\\s([AB])\\s*,\\s*([@]{0,1})(\\d+)$",
-            "^(ST)\\s([AB])\\s*,\\s*([@]{1})(\\d+)$",
-            "^(ADD)\\s([AB])\\s*,\\s*([AB])$",
-            "^(SUB)\\s([AB])\\s*,\\s*([AB])$",
-            "^(MUL)\\s([AB])\\s*,\\s*([AB])$",
-            "^(DIV)\\s([AB])\\s*,\\s*([AB])$",
-            "^(BEQ)\\s([AB])\\s*,\\s*([AB])\\s*,\\s*(\\S+)$",
-            "^(BGT)\\s([AB])\\s*,\\s*([AB])\\s*,\\s*(\\S+)$",
-            "^(BLT)\\s([AB])\\s*,\\s*([AB])\\s*,\\s*(\\S+)$",
-            "^(BNZ)\\s([AB])\\s*,\\s*(\\S+)$",
-            "^(HALT)$"
-    };
     
     private int value;
 
@@ -64,37 +51,37 @@ public class Instruction {
 
         switch (instruction & Opcodes.INS_MASK) {
             case Opcodes.II_LD:
-                LD.execute(registers, memory, (instruction & Opcodes.R1_MASK) >> Opcodes.R1_SHIFT, (instruction & Opcodes.R2_MASK) >> Opcodes.R2_SHIFT, instruction & Opcodes.OPERAND_MASK);
+                nextIns= Operations.execute("LD",registers, memory, instruction);
                 break;
             case Opcodes.II_ST:
-                ST.execute(registers, memory, (instruction & Opcodes.R1_MASK) >> Opcodes.R1_SHIFT, instruction & Opcodes.OPERAND_MASK);
+                nextIns= Operations.execute("ST",registers, memory, instruction);
                 break;
             case Opcodes.II_ADD:
-                ADD.execute(registers, (instruction & Opcodes.R1_MASK) >> Opcodes.R1_SHIFT, (instruction & Opcodes.R2_MASK) >> Opcodes.R2_SHIFT);
+                nextIns= Operations.execute("ADD",registers, memory, instruction);
                 break;
             case Opcodes.II_SUB:
-                SUB.execute(registers, (instruction & Opcodes.R1_MASK) >> Opcodes.R1_SHIFT, (instruction & Opcodes.R2_MASK) >> Opcodes.R2_SHIFT);
+                nextIns= Operations.execute("SUB",registers, memory, instruction);
                 break;
             case Opcodes.II_MUL:
-                MUL.execute(registers, (instruction & Opcodes.R1_MASK) >> Opcodes.R1_SHIFT, (instruction & Opcodes.R2_MASK) >> Opcodes.R2_SHIFT);
+                nextIns= Operations.execute("MUL",registers, memory, instruction);
                 break;
             case Opcodes.II_DIV:
-                DIV.execute(registers, (instruction & Opcodes.R1_MASK) >> Opcodes.R1_SHIFT, (instruction & Opcodes.R2_MASK) >> Opcodes.R2_SHIFT);
+                nextIns= Operations.execute("DIV",registers, memory, instruction);
                 break;
             case Opcodes.II_BEQ:
-                nextIns = BEQ.execute(registers, (instruction & Opcodes.R1_MASK) >> Opcodes.R1_SHIFT, (instruction & Opcodes.R2_MASK) >> Opcodes.R2_SHIFT, instruction & Opcodes.OPERAND_MASK);
+                nextIns= Operations.execute("BEQ",registers, memory, instruction);
                 break;
             case Opcodes.II_BGT:
-                nextIns = BGT.execute(registers, (instruction & Opcodes.R1_MASK) >> Opcodes.R1_SHIFT, (instruction & Opcodes.R2_MASK) >> Opcodes.R2_SHIFT, instruction & Opcodes.OPERAND_MASK);
+                nextIns= Operations.execute("BGT",registers, memory, instruction);
                 break;
             case Opcodes.II_BLT:
-                nextIns = BLT.execute(registers, (instruction & Opcodes.R1_MASK) >> Opcodes.R1_SHIFT, (instruction & Opcodes.R2_MASK) >> Opcodes.R2_SHIFT, instruction & Opcodes.OPERAND_MASK);
+                nextIns= Operations.execute("BLT",registers, memory, instruction);
                 break;
             case Opcodes.II_BNZ:
-                nextIns = BNZ.execute(registers, (instruction & Opcodes.R1_MASK) >> Opcodes.R1_SHIFT, instruction & Opcodes.OPERAND_MASK);
+                nextIns= Operations.execute("BNZ",registers, memory, instruction);
                 break;
             case Opcodes.II_HALT:
-                HALT.execute(registers);
+                nextIns= Operations.execute("HALT",registers, memory, instruction);
                 break;
             default:
                 throw new Exception("Unknown instruction in CC|II fields: " + (instruction & Opcodes.INS_MASK));

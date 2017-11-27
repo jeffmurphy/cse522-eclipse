@@ -6,6 +6,9 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.java.contract.Requires;
+
+
 //http://jakubdziworski.github.io/java/2016/04/01/antlr_visitor_vs_listener.html
 
 public class Compiler {
@@ -17,6 +20,7 @@ public class Compiler {
     /* map labels pending resolution to inst num / instruction */
     private Map<String, LabelNode> pendingLabelMap = new HashMap<String, LabelNode>();
 
+    @Requires(value = { "program != null" })
     public void compile(String program) throws Exception {
         try {
             labelMap.clear();

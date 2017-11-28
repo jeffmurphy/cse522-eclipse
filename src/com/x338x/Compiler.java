@@ -41,6 +41,13 @@ public class Compiler {
         }
     }
     
+    /*
+     * @Requires ({"isprogramclean == true"})
+     * @Ensures ({"for(String line : program.split("\n"))
+     * 					{
+     * 						convert(line) == byteCodes(extractLineNum(line))
+     * 					}"})
+     */
     public void convertToByteCode(String program){
     	
     	try
@@ -72,13 +79,20 @@ public class Compiler {
     	}
     }
     
+    
+    /* 
+     * @Requires ({"! line.isEmpty() && line !=null"})
+     * @Ensures ({"match(line,label_pattern) == true
+     * 				&&
+     * 				ExtractOperation(line).isValid == true"})
+     */
     public void checkSyntax(String line) throws Exception {
         String label_pattern = "(\\S+):\\s*(.*)";
         Pattern lp = Pattern.compile(label_pattern);
         Matcher m = lp.matcher(line);
         String instruction = line;
         String label = null;
-
+        
         line = line.trim().replaceAll(" +", " ");
         if (line.equals("") || line.startsWith(";")) return;
 

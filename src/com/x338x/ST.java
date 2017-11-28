@@ -1,6 +1,6 @@
 package com.x338x;
 
-public class ST extends Instruction {
+public class ST extends Operations {
 
     /*
      bytecode is 16 bits:
@@ -23,17 +23,17 @@ public class ST extends Instruction {
      */
 
     public static int convert(String arg1, String arg2) {
-        int bc = Instruction.II_ST;
+        int bc = Opcodes.II_ST;
 
         if (arg1.equals("A"))
-            bc |= Instruction.REGA << Instruction.R1_SHIFT;
+            bc |= Opcodes.REGA << Opcodes.R1_SHIFT;
         else if (arg1.equals("B"))
-            bc |= Instruction.REGB << Instruction.R1_SHIFT;
+            bc |= Opcodes.REGB << Opcodes.R1_SHIFT;
 
         // R2 is unused (ST always goes to mem)
 
         int memloc = Integer.parseInt(arg2);
-        bc |= (Instruction.OPERAND_MASK & memloc);
+        bc |= (Opcodes.OPERAND_MASK & memloc);
 
         return bc;
     }
@@ -44,10 +44,10 @@ public class ST extends Instruction {
             r.setST(r.getST() | Registers.BUSERROR | Registers.HALT);
         } else {
             switch (reg) {
-                case Instruction.REGA:
+                case Opcodes.REGA:
                     memory[operand] = r.getA();
                     break;
-                case Instruction.REGB:
+                case Opcodes.REGB:
                     memory[operand] = r.getB();
                     break;
                 default:

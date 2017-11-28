@@ -1,6 +1,6 @@
 package com.x338x;
 
-public class BNZ extends Instruction {
+public class BNZ extends Operations {
 
     /*
      bytecode is 16 bits:
@@ -25,22 +25,22 @@ public class BNZ extends Instruction {
      */
 
     public static int convert(String arg1, int labelNum) {
-        int bc = Instruction.II_BNZ;
+        int bc = Opcodes.II_BNZ;
 
         // ADD A, A is ok
 
         if (arg1.equals("A"))
-            bc |= Instruction.REGA << Instruction.R1_SHIFT;
+            bc |= Opcodes.REGA << Opcodes.R1_SHIFT;
         else if (arg1.equals("B"))
-            bc |= Instruction.REGB << Instruction.R1_SHIFT;
+            bc |= Opcodes.REGB << Opcodes.R1_SHIFT;
 
-        bc |= (Instruction.OPERAND_MASK & labelNum);
+        bc |= (Opcodes.OPERAND_MASK & labelNum);
 
         return bc;
     }
 
     public static int execute(Registers r, int dstreg, int operand) throws Exception {
-        int dstval = getregval(r, dstreg);
+        int dstval = Instruction.getregval(r, dstreg);
 
         // BNZ A, iNum   --->  if A != 0 then goto iNum else -1
 

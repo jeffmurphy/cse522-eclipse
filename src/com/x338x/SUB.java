@@ -1,6 +1,6 @@
 package com.x338x;
 
-public class SUB extends Instruction {
+public class SUB extends Operations {
 
     /*
      bytecode is 16 bits:
@@ -25,25 +25,25 @@ public class SUB extends Instruction {
      */
 
     public static int convert(String arg1, String arg2) {
-        int bc = Instruction.II_SUB;
+        int bc = Opcodes.II_SUB;
 
         // ADD A, A is ok
 
         if (arg1.equals("A"))
-            bc |= Instruction.REGA << Instruction.R1_SHIFT;
+            bc |= Opcodes.REGA << Opcodes.R1_SHIFT;
         else if (arg1.equals("B"))
-            bc |= Instruction.REGB << Instruction.R1_SHIFT;
+            bc |= Opcodes.REGB << Opcodes.R1_SHIFT;
 
         if (arg2.equals("A"))
-            bc |= Instruction.REGA << Instruction.R2_SHIFT;
+            bc |= Opcodes.REGA << Opcodes.R2_SHIFT;
         else if (arg2.equals("B"))
-            bc |= Instruction.REGB << Instruction.R2_SHIFT;
+            bc |= Opcodes.REGB << Opcodes.R2_SHIFT;
 
         return bc;
     }
 
     public static void execute(Registers r, int dstreg, int srcreg) throws Exception {
-        int srcval = getregval(r, srcreg), dstval = getregval(r, dstreg);
+        int srcval = Instruction.getregval(r, srcreg), dstval = Instruction.getregval(r, dstreg);
 
         // SUB A, B   --->  A = A - B
 
@@ -51,7 +51,7 @@ public class SUB extends Instruction {
         if (dstval - srcval < 0)
             r.setST(r.getST() | Registers.UNDERFLOW);
 
-        setregval(r, dstreg, dstval - srcval); // Register() class will enforce 8 bit
+        Instruction.setregval(r, dstreg, dstval - srcval); // Register() class will enforce 8 bit
     }
 
 

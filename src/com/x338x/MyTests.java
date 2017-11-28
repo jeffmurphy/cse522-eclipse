@@ -15,7 +15,7 @@ public class MyTests {
 	public void test_compile_ADD_A_B() {
 	    Map<String, Statement> labelMap = new HashMap<String, Statement>();
 	    try {
-	    	Instruction ins = new Instruction("ADD A, B", labelMap);
+	    	Operations ins = new Operations("ADD A, B", labelMap);
 	    	assert(ins.getByteCode() == 0b0100000100000000);
 	    }
 	    catch (Exception e) {
@@ -30,7 +30,7 @@ public class MyTests {
 	    Map<String, Statement> labelMap = new HashMap<String, Statement>();
 	    try {
 	    	@SuppressWarnings("unused")
-			Instruction ins = new Instruction("ADD A, Z", labelMap);
+			Operations ins = new Operations("ADD A, Z", labelMap);
 	    	fail("Compilation of ADD A, Z succeeded but should not have.");
 	    }
 	    catch (Exception e) {
@@ -67,7 +67,7 @@ public class MyTests {
 		r.setA(2);
 		r.setB(3);
 		try {
-			ADD.execute(r, Instruction.REGA, Instruction.REGB);
+			ADD.execute(r, Opcodes.REGA, Opcodes.REGB);
 			assert(r.getA() == 5);
 		}
 		catch(Exception e) {
@@ -83,7 +83,7 @@ public class MyTests {
 		r.setA(255);
 		r.setB(2);
 		try {
-			ADD.execute(r, Instruction.REGA, Instruction.REGB);
+			ADD.execute(r, Opcodes.REGA, Opcodes.REGB);
 			assert(r.getA() == 1);
 			assert((r.getST() & Registers.OVERFLOW) == Registers.OVERFLOW);
 		}

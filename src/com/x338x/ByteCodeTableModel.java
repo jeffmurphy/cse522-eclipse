@@ -6,9 +6,9 @@ import java.util.List;
 
 public class ByteCodeTableModel extends DefaultTableModel {
     private String[] columnNames = {"Inst#", "Dec", "Bin"};
-    List<Integer> byteCodes = new ArrayList<>();
+    ByteCodes byteCodes;
 
-    public void setBytecode(List<Integer> byteCodes) {
+    public void setBytecode(ByteCodes byteCodes) {
         this.byteCodes = byteCodes;
         fireTableDataChanged();
     }
@@ -23,8 +23,8 @@ public class ByteCodeTableModel extends DefaultTableModel {
 
     @Override
     public int getRowCount() {
-        if (byteCodes != null && byteCodes.isEmpty() == false)
-            return byteCodes.size();
+        if (byteCodes != null && byteCodes.getCodes().isEmpty() == false)
+            return byteCodes.getCodes().size();
         return 0;
     }
 
@@ -43,8 +43,8 @@ public class ByteCodeTableModel extends DefaultTableModel {
 
     public Object getValueAt(int row, int col) {
         if (col == 0) return row;
-        if (col == 2) return itob((int)byteCodes.get(row)); //Integer.toHexString((int)byteCodes.get(row));
-        return (int) byteCodes.get(row);
+        if (col == 2) return itob((int)byteCodes.getCodes().get(row).getValue()); //Integer.toHexString((int)byteCodes.get(row));
+        return (int) byteCodes.getCodes().get(row).getValue();
     }
 
     public boolean isCellEditable(int row, int col) {
@@ -52,7 +52,7 @@ public class ByteCodeTableModel extends DefaultTableModel {
     }
 
     public void setValueAt(Object value, int row, int col) {
-        byteCodes.set(row, (int)value);
+        byteCodes.getCodes().set(row, new Instruction((int)value));
         fireTableCellUpdated(row, col);
     }
 }

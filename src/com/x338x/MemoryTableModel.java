@@ -9,8 +9,8 @@ public class MemoryTableModel extends DefaultTableModel {
     MemoryTableModel() {
     }
 
-    public void updateMemory(int[] mem) {
-        memory = mem;
+    public void updateMemory(Memory mem) {
+        memory = mem.getBlocks();
         this.fireTableDataChanged();
     }
 

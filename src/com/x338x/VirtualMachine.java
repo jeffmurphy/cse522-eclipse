@@ -72,8 +72,13 @@ public class VirtualMachine {
                 if (iNum > byteCodes.getCodes().size())
                     registers.setST(registers.getST() | Registers.BUSERROR | Registers.HALT);
                 else
-                    Instruction.execute(registers, memory, byteCodes.getCodes().get(iNum).getValue());
-
+                {
+                    int nextIns=Instruction.execute(registers, memory, byteCodes.getCodes().get(iNum).getValue());
+                    if (nextIns == -1)
+                        updatePC(getPC() + 1);
+                    else
+                        updatePC(nextIns);
+                }
                // visualizeRegisters();
                // mtm.fireTableDataChanged();
             } else

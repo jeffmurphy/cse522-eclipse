@@ -11,7 +11,7 @@ public class Student {
         try{
         	 compiler.compile(program);
         	 vm.setByteCodes(compiler.byteCodes);
-        	 vm.step();
+        	 moveNext(vm);
         }
         catch(Exception e)
         {
@@ -19,6 +19,10 @@ public class Student {
         }
         
         
+	}
+
+	private static void moveNext(VirtualMachine vm) throws Exception {
+		vm.step();
 	}
 
 }

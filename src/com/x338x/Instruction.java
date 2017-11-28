@@ -111,6 +111,7 @@ public class Instruction {
 
     /*
      * @Requires({"reg == Opcodes.REGA || reg == Opcodes.REGB"})
+     * @Ensures({"r.getA() == val || r.getB() == val"})
      */
     public static void setregval(Registers r, int reg, int val) throws Exception {
         switch (reg) {

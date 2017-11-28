@@ -95,7 +95,9 @@ public class Instruction {
     }
 
     
-    @Requires({"reg == Opcodes.REGA || reg == Opcodes.REGB"})
+    /*
+     * @Requires({"reg == Opcodes.REGA || reg == Opcodes.REGB"})
+     */
     public static int getregval(Registers r, int reg) throws Exception {
         switch (reg) {
             case Opcodes.REGA:
@@ -107,7 +109,9 @@ public class Instruction {
         }
     }
 
-    @Requires({"reg == Opcodes.REGA || reg == Opcodes.REGB"})
+    /*
+     * @Requires({"reg == Opcodes.REGA || reg == Opcodes.REGB"})
+     */
     public static void setregval(Registers r, int reg, int val) throws Exception {
         switch (reg) {
             case Opcodes.REGA:

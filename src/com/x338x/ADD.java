@@ -24,6 +24,10 @@ public class ADD extends Operations {
 
      */
 
+	/*
+	 * @Requires({(arg1.equals("A") || arg1.equals("B")) && (arg2.equals("A") || arg2.equals("B"))})
+	 * @Ensures({(bc & Opcodes.II_ADD == Opcodes.II_ADD)})
+	 */
     public static int convert(String arg1, String arg2) {
         int bc = Opcodes.II_ADD;
 
@@ -42,6 +46,10 @@ public class ADD extends Operations {
         return bc;
     }
 
+	/*
+	 * @Requires({r != null && (dstreg == Opcodes.REGA || dstreg == Opcodes.REGB) && (srcreg == Opcodes.REGA || srcreg == Opcodes.REGB)})
+	 * @Ensures({Instruction.getregval(r, dstreg) == ((srcval + dstval) && 0xFF)})
+	 */
     public static void execute(Registers r, int dstreg, int srcreg) throws Exception {
         int srcval = Instruction.getregval(r, srcreg), dstval = Instruction.getregval(r, dstreg);
 

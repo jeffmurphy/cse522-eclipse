@@ -3,13 +3,15 @@ package com.x338x;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import com.google.java.contract.Requires;
+import com.google.java.contract.Ensures;
 
 public class Instruction {
 
     // could do a CMP REG, [REG | LIT] ..
 
     
-    private int value;
+	private int value;
 
     /*
      bytecode is 16 bits:
@@ -93,7 +95,7 @@ public class Instruction {
     }
 
     
-
+    @Requires({"reg == Opcodes.REGA || reg == Opcodes.REGB"})
     public static int getregval(Registers r, int reg) throws Exception {
         switch (reg) {
             case Opcodes.REGA:
@@ -105,6 +107,7 @@ public class Instruction {
         }
     }
 
+    @Requires({"reg == Opcodes.REGA || reg == Opcodes.REGB"})
     public static void setregval(Registers r, int reg, int val) throws Exception {
         switch (reg) {
             case Opcodes.REGA:

@@ -88,7 +88,7 @@ public class MyTests {
 			assert((r.getST() & Registers.OVERFLOW) == Registers.OVERFLOW);
 		}
 		catch(Exception e) {
-			fail("Failed to ADD A(2), B(3) got=" + r.getA());
+			fail("Failed to ADD A(255), B(2) got=" + r.getA());
 		}
 	}
 	

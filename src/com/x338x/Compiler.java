@@ -20,7 +20,7 @@ public class Compiler {
     /* map labels pending resolution to inst num / instruction */
     private Map<String, LabelNode> pendingLabelMap = new HashMap<String, LabelNode>();
 
-    @Requires(value = { "program != null" })
+    @Requires({ "program != null" })
     public void compile(String program) throws Exception {
         try {
             labelMap.clear();

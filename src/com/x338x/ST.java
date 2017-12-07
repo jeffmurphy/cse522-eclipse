@@ -39,16 +39,16 @@ public class ST extends Operations {
     }
 
 
-    public static void execute(Registers r, int [] memory, int reg, int operand) throws Exception {
-        if (operand >= memory.length) {
+    public static void execute(Registers r, Memory memory, int reg, int operand) throws Exception {
+        if (operand >= memory.getBlocks().length) {
             r.setST(r.getST() | Registers.BUSERROR | Registers.HALT);
         } else {
             switch (reg) {
                 case Opcodes.REGA:
-                    memory[operand] = r.getA();
+                    memory.getBlocks()[operand] = r.getA();
                     break;
                 case Opcodes.REGB:
-                    memory[operand] = r.getB();
+                    memory.getBlocks()[operand] = r.getB();
                     break;
                 default:
                     throw new Exception("Invalid register specified: " + reg);

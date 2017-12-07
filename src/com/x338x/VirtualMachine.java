@@ -60,17 +60,21 @@ public class VirtualMachine {
         visualizeRegisters();
     }
 
+    /*
+     * @Requires({"byteCodes != null && byteCodes.getCodes().size() > 0"})
+     * @Ensures({"getPC() > old(PC) || getPC() == nextIns"})
+     */
     public void step() throws Exception {
         if (byteCodes != null && byteCodes.getCodes().size() > 0) {
             System.out.printf("stepping over instruction %d%n", getPC());
 
-            if ((registers.getST() & Registers.HALT) != Registers.HALT) {
+            if ((getSTReg() & Registers.HALT) != Registers.HALT) {
                 int iNum = getPC();
-                registers.setST(0);
-               // bct.setRowSelectionInterval(iNum, iNum);
+                updateST(0);
+                bct.setRowSelectionInterval(iNum, iNum);
 
                 if (iNum > byteCodes.getCodes().size())
-                    registers.setST(registers.getST() | Registers.BUSERROR | Registers.HALT);
+                    updateST(getSTReg() | Registers.BUSERROR | Registers.HALT);
                 else
                 {
                     int nextIns=Instruction.execute(registers, memory, byteCodes.getCodes().get(iNum).getValue());
@@ -79,30 +83,34 @@ public class VirtualMachine {
                     else
                         updatePC(nextIns);
                 }
-               // visualizeRegisters();
-               // mtm.fireTableDataChanged();
+                visualizeRegisters();
+                storeToMemory();
             } else
                 throw new Exception("Execution finished.");
 
         }
         else {
-            registers.setST(registers.getST() | Registers.BUSERROR | Registers.HALT);
+            updateST(getSTReg() | Registers.BUSERROR | Registers.HALT);
             throw new Exception("Bytecode empty. Compile first?");
         }
     }
+
+	private void storeToMemory() {
+		mtm.fireTableDataChanged();
+	}
 
     public void run() throws Exception {
         if (byteCodes != null && byteCodes.getCodes().size() > 0) {
             reset();
             System.out.println("running " + byteCodes.getCodes().size() + " instructions.");
 
-            while ((registers.getST() & Registers.HALT) != Registers.HALT) {
+            while ((getSTReg() & Registers.HALT) != Registers.HALT) {
                 int iNum = getPC();
-                registers.setST(0);
+                updateST(0);
                 bct.setRowSelectionInterval(iNum, iNum);
 
                 if (iNum > byteCodes.getCodes().size())
-                    registers.setST(registers.getST() | Registers.BUSERROR | Registers.HALT);
+                    updateST(getSTReg() | Registers.BUSERROR | Registers.HALT);
                 else
                 {
                     int nextIns=Instruction.execute(registers, memory, byteCodes.getCodes().get(iNum).getValue());
@@ -113,14 +121,22 @@ public class VirtualMachine {
                 }
 
                 visualizeRegisters();
-                mtm.fireTableDataChanged();
+                storeToMemory();
             }
             throw new Exception("Execution finished.");
         }
         else {
-            registers.setST(registers.getST() | Registers.BUSERROR | Registers.HALT);
+            updateST(getSTReg() | Registers.BUSERROR | Registers.HALT);
             throw new Exception("Bytecode empty. Compile first?");
         }
+    }
+
+	private int getSTReg() {
+		return registers.getST();
+	}
+    
+    private void updateST(int val){
+    	registers.setST(val);
     }
 
 	private int getPC() {

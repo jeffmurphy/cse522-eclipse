@@ -43,15 +43,15 @@ public class LD extends Operations {
         return bc;
     }
 
-    public static void execute(Registers r, int [] memory, int reg, int reg2, int operand) throws Exception {
+    public static void execute(Registers r, Memory memory, int reg, int reg2, int operand) throws Exception {
         int val = operand;
 
         if (reg2 == Opcodes.ADDRESS) {
-            if (operand >= memory.length) {
+            if (operand >= memory.getBlocks().length) {
                 r.setST(r.getST() | Registers.BUSERROR | Registers.HALT);
                 return;
             }
-            val = memory[operand];
+            val = memory.getBlocks()[operand];
         }
 
         switch (reg) {

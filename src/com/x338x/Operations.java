@@ -6,19 +6,7 @@ import java.util.regex.Pattern;
 
 public class Operations {
 	
-	 private static String[] iPats = {
-	            "^(LD)\\s([AB])\\s*,\\s*([@]{0,1})(\\d+)$",
-	            "^(ST)\\s([AB])\\s*,\\s*([@]{1})(\\d+)$",
-	            "^(ADD)\\s([AB])\\s*,\\s*([AB])$",
-	            "^(SUB)\\s([AB])\\s*,\\s*([AB])$",
-	            "^(MUL)\\s([AB])\\s*,\\s*([AB])$",
-	            "^(DIV)\\s([AB])\\s*,\\s*([AB])$",
-	            "^(BEQ)\\s([AB])\\s*,\\s*([AB])\\s*,\\s*(\\S+)$",
-	            "^(BGT)\\s([AB])\\s*,\\s*([AB])\\s*,\\s*(\\S+)$",
-	            "^(BLT)\\s([AB])\\s*,\\s*([AB])\\s*,\\s*(\\S+)$",
-	            "^(BNZ)\\s([AB])\\s*,\\s*(\\S+)$",
-	            "^(HALT)$"
-	    };
+	 private static String[] iPats;
 	 
 	 	private Boolean pending = false;
 	    private String pendingLabel;
@@ -46,13 +34,15 @@ public class Operations {
 	        parse();
 	 }
 	 
+	 
+	 
+	 
 	 public static boolean isValidOperation(String i)
 	 {
 		 boolean err = true;
-
-	        for (String ip : iPats) {
+	        for (String ip : getiPats()) {
 	            Pattern lp = Pattern.compile(ip);
-	            Matcher m = lp.matcher(i);
+	            Matcher m = lp.matcher(i.trim());
 
 	            if (m.find()) {
 	                err = false;
@@ -67,7 +57,7 @@ public class Operations {
 	 public void parse() throws Exception {
 	        boolean err = true;
 
-	        for (String ip : iPats) {
+	        for (String ip : getiPats()) {
 	            Pattern lp = Pattern.compile(ip);
 	            Matcher m = lp.matcher(i);
 
@@ -161,7 +151,7 @@ public class Operations {
 	            byteCode = HALT.convert();
 	    }
 	    
-	    public static int execute(String type,Registers registers, int[] memory, int instruction) throws Exception {
+	    public static int execute(String type,Registers registers, Memory memory, int instruction) throws Exception {
 	    	int next =-1;
 	    	switch(type){
 	    	 case "LD":
@@ -238,6 +228,14 @@ public class Operations {
 	    public String getPendingLabel() {
 	        return pendingLabel;
 	    }
+
+		public static String[] getiPats() {
+			return iPats;
+		}
+
+		public static void setiPats(String[] iPats) {
+			Operations.iPats = iPats;
+		}
 
 	 
 

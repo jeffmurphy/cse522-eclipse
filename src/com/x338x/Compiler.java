@@ -4,9 +4,6 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.google.java.contract.Requires;
-import com.google.java.contract.Ensures;
-
 
 //http://jakubdziworski.github.io/java/2016/04/01/antlr_visitor_vs_listener.html
 
@@ -18,7 +15,35 @@ public class Compiler {
     private Map<String, Statement> labelMap = new HashMap<String, Statement>();
     /* map labels pending resolution to inst num / instruction */
     private Map<String, Statement> pendingLabelMap = new HashMap<String, Statement>();
-
+    
+    public Compiler(){
+   	
+    	defineValidOps();
+    }
+    
+    public void defineValidOps()
+	 {
+    	String[] pat = {
+	            "^(LD)\\s([AB])\\s*,\\s*([@]{0,1})(\\d+)$",
+	            "^(ST)\\s([AB])\\s*,\\s*([@]{1})(\\d+)$",
+	            "^(ADD)\\s([AB])\\s*,\\s*([AB])$",
+	            "^(SUB)\\s([AB])\\s*,\\s*([AB])$",
+	            "^(MUL)\\s([AB])\\s*,\\s*([AB])$",
+	            "^(DIV)\\s([AB])\\s*,\\s*([AB])$",
+	            "^(BEQ)\\s([AB])\\s*,\\s*([AB])\\s*,\\s*(\\S+)$",
+	            "^(BGT)\\s([AB])\\s*,\\s*([AB])\\s*,\\s*(\\S+)$",
+	            "^(BLT)\\s([AB])\\s*,\\s*([AB])\\s*,\\s*(\\S+)$",
+	            "^(BNZ)\\s([AB])\\s*,\\s*(\\S+)$",
+	            "^(HALT)$"
+	    };
+    	
+    	
+		 Operations.setiPats(pat);
+	 }
+    /*
+     * @Requires({"!program.isEmpty() && program !=null"})
+     * @Ensures({"byteCodes != null && byteCodes.getCodes().size() >0"})
+     */
     public void compile(String program) throws Exception {
         try {
             labelMap.clear();
@@ -111,7 +136,7 @@ public class Compiler {
             }
         }
 
-        System.out.println(iNum + ") lab: " + label + " ins: " + instruction);
+        System.out.println(iNum + ") lab: " + label + " stmnt: " + instruction);
         
         if(!Operations.isValidOperation(instruction))
         	throw new Exception("Can't parse line: "+instruction);

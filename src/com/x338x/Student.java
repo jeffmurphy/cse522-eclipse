@@ -19,9 +19,11 @@ public class Student {
     private JLabel stLabel;
     private JLabel aregLabel;
     private JLabel bregLabel;
+    
+    Program pgm;
 
     public Student() {
-
+    	
         MemoryTableModel mtm = new MemoryTableModel();
         memoryTable.setModel(mtm);
         mtm.fireTableDataChanged();
@@ -45,7 +47,8 @@ public class Student {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    compiler.compile(codeEditor.getText());
+                	writeProgram();
+                    compiler.compile(pgm.lst_stmnts);
                     bctm.setBytecode(compiler.byteCodes);
                     vm.setByteCodes(compiler.byteCodes);
                     vm.reset();
@@ -80,7 +83,7 @@ public class Student {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    vm.step();
+                    moveNext(vm);
                 } catch (Exception e1) {
                     JOptionPane.showMessageDialog(mainpanel.getParent(),
                             e1.getMessage(),
@@ -88,6 +91,10 @@ public class Student {
                             JOptionPane.ERROR_MESSAGE);
                 }
             }
+
+			private void moveNext(VirtualMachine vm) throws Exception {
+				vm.step();
+			}
         });
 
         resetButton.addActionListener(new ActionListener() {
@@ -96,6 +103,11 @@ public class Student {
                 vm.reset();
             }
         });
+    }
+    
+    private void writeProgram()
+    {
+    	this.pgm = new Program(codeEditor.getText());
     }
 
     public static void main(String[] args) {

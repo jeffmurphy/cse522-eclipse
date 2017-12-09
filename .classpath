@@ -9,9 +9,5 @@
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/jcmurphy/Documents/Aptana/Jake/instructionalcompiler-eclipse/lib/cofoja-1.3-20160207.jar"/>
-	<classpathentry kind="lib" path="/Users/jcmurphy/Documents/Aptana/Jake/instructionalcompiler-eclipse/lib/cofoja.asm-1.3-20160207.jar"/>
-	<classpathentry kind="lib" path="/Users/jcmurphy/Documents/Aptana/Jake/instructionalcompiler-eclipse/lib/cofoja.contracts-1.3-20160207.jar"/>
-	<classpathentry kind="lib" path="/Users/jcmurphy/Documents/Aptana/Jake/instructionalcompiler-eclipse/lib/cofoja.contracts.asm-1.3-20160207.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
